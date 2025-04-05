@@ -205,18 +205,18 @@ const Activities = () => {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div
-          className="text-center mb-8 scroll-fade-in"
+          className="text-center mb-6 sm:mb-8 scroll-fade-in"
           ref={headingRef}
         >
           <div className="inline-block mb-2">
             <span className="bg-gradient-to-r from-growth-600 to-growth-800 h-1 w-20 block mx-auto"></span>
-            <span className="text-sm font-medium text-growth-400 uppercase tracking-wider">Confronting Fear</span>
+            <span className="text-xs sm:text-sm font-medium text-growth-400 uppercase tracking-wider">Confronting Fear</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4 bg-gradient-to-r from-growth-400 via-growth-500 to-growth-700 text-transparent bg-clip-text">
-            <FearIcon size={28} className="inline-block mr-2 mb-1" />
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-growth-400 via-growth-500 to-growth-700 text-transparent bg-clip-text px-2 sm:px-0">
+            <FearIcon size={24} className="inline-block mr-2 mb-1" />
             Popular Courage Activities
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto px-4 sm:px-0">
+          <p className="text-gray-400 max-w-2xl mx-auto px-4 sm:px-0 text-sm sm:text-base">
             Discover activities designed to help you confront your fears and build courage through gradual exposure and guided experiences.
           </p>
         </div>
