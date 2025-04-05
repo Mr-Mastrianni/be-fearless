@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "supabase": {
+      "command": "node",
+      "args": [
+        "C:\\Users\\sense\\AppData\\Roaming\\Roo-Code\\MCP\\supabase-server\\build\\index.js"
+      ],
+      "env": {
+        "SUPABASE_URL": "https://bzryrvfjfzchzbmxzdyi.supabase.co",
+        "SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6cnlydmZqZnpjaHpibXh6ZHlpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MDcxMDY0MSwiZXhwIjoyMDU2Mjg2NjQxfQ.WMgUO2E3ohMmBdvyywbButnrnyv0_X3V5YmNFzuD6lM"
+      },
+      "disabled": false,
+      "alwaysAllow": []
+    }
+  }
+}
