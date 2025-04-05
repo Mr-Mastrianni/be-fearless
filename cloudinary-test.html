@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudinary Video Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .video-container {
+            margin-bottom: 30px;
+        }
+        video {
+            max-width: 100%;
+            border: 1px solid #ddd;
+        }
+        .instructions {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cloudinary Video Test</h1>
+    
+    <div class="instructions">
+        <h2>Instructions</h2>
+        <p>This page helps you test if your Cloudinary videos are working correctly.</p>
+        <p>Enter your Cloudinary cloud name and the public ID of your video, then click "Test Video".</p>
+    </div>
+    
+    <div>
+        <label for="cloudName">Your Cloudinary Cloud Name:</label>
+        <input type="text" id="cloudName" placeholder="e.g., your-cloud-name">
+        
+        <label for="publicId">Video Public ID:</label>
+        <input type="text" id="publicId" placeholder="e.g., courage-videos/julie">
+        
+        <button onclick="testVideo()">Test Video</button>
+    </div>
+    
+    <div id="result" style="margin-top: 20px;"></div>
+    
+    <div id="videoContainer" class="video-container" style="display: none;">
+        <h3>Video Test</h3>
+        <video id="testVideo" controls width="640">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
+    <script>
+        function testVideo() {
+            const cloudName = document.getElementById('cloudName').value.trim();
+            const publicId = document.getElementById('publicId').value.trim();
+            const resultDiv = document.getElementById('result');
+            const videoContainer = document.getElementById('videoContainer');
+            const testVideo = document.getElementById('testVideo');
+            
+            if (!cloudName || !publicId) {
+                resultDiv.innerHTML = '<p class="error">Please enter both your Cloudinary cloud name and a video public ID.</p>';
+                videoContainer.style.display = 'none';
+                return;
+            }
+            
+            const videoUrl = `https://res.cloudinary.com/${cloudName}/video/upload/v1/${publicId}`;
+            
+            resultDiv.innerHTML = `
+                <p>Testing video URL: <a href="${videoUrl}" target="_blank">${videoUrl}</a></p>
+                <p>Loading video...</p>
+            `;
+            
+            testVideo.src = videoUrl;
+            videoContainer.style.display = 'block';
+            
+            testVideo.onloadeddata = function() {
+                resultDiv.innerHTML += `<p class="success">✓ Video loaded successfully!</p>`;
+            };
+            
+            testVideo.onerror = function() {
+                resultDiv.innerHTML += `
+                    <p class="error">✗ Error loading video. Possible issues:</p>
+                    <ul>
+                        <li>Incorrect cloud name</li>
+                        <li>Incorrect public ID</li>
+                        <li>Video not uploaded to Cloudinary</li>
+                        <li>Video access restrictions</li>
+                    </ul>
+                `;
+            };
+        }
+    </script>
+</body>
+</html>

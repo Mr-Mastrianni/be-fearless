@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vimeo Public Videos Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .video-container {
+            margin-bottom: 30px;
+        }
+        .responsive-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+        }
+        .responsive-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .note {
+            background-color: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vimeo Public Videos Test</h1>
+    
+    <div class="note">
+        <p><strong>Note:</strong> This page uses real, public Vimeo videos to test embedding functionality. 
+        These are sample videos from Vimeo's Staff Picks that are publicly available for embedding.</p>
+    </div>
+    
+    <div class="video-container">
+        <h2>Example 1: Vimeo Staff Pick</h2>
+        <p>Video ID: 824804225</p>
+        <div class="responsive-container">
+            <iframe src="<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1072428960?h=756979b04e&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="BE Courageous"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>" 
+                allow="autoplay; fullscreen; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        <script src="https://player.vimeo.com/api/player.js"></script>
+    </div>
+    
+    <div class="video-container">
+        <h2>Example 2: Another Public Video</h2>
+        <p>Video ID: 783455935</p>
+        <div class="responsive-container">
+            <iframe src="https://player.vimeo.com/video/783455935?h=b42e1c271e&title=0&byline=0&portrait=0" 
+                allow="autoplay; fullscreen; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+/* Force black text for navbar regardless of scrolling or animations */
+
+/* Global selector for the navbar and all its children */
+header[class*="fixed"],
+header[class*="fixed"] *,
+nav[class*="fixed"],
+nav[class*="fixed"] * {
+  color: #000000 !important;
+  fill: #000000 !important;
+  stroke: #000000 !important;
+  text-fill-color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+/* Specific elements that might be problematic */
+header a, 
+header button,
+header span,
+header p,
+header div,
+nav a,
+nav button,
+nav span,
+nav p,
+nav div {
+  color: #000000 !important;
+  fill: #000000 !important;
+  stroke: #000000 !important;
+}
+
+/* Override hover, active, and focus states */
+header a:hover, header button:hover,
+header a:focus, header button:focus,
+header a:active, header button:active,
+nav a:hover, nav button:hover,
+nav a:focus, nav button:focus,
+nav a:active, nav button:active {
+  color: #000000 !important;
+}
+
+/* Override any theme-specific styles */
+[data-theme="dark"] header *,
+[data-theme="light"] header *,
+header[data-theme="dark"] *,
+header[data-theme="light"] *,
+nav[data-theme="dark"] *,
+nav[data-theme="light"] * {
+  color: #000000 !important;
+}
+
+/* Fix specifically for mobile menu items */
+.mobile-menu-item,
+.mobile-menu-item * {
+  color: #000000 !important;
+}
+
+/* Fix for dropdown menus */
+header [role="menu"],
+header [role="menu"] *,
+nav [role="menu"],
+nav [role="menu"] * {
+  color: #000000 !important;
+}
+
+/* Override any animation styles */
+@keyframes fadeIn {
+  0%, 100% {
+    color: #000000 !important;
+  }
+}
+
+@keyframes fadeOut {
+  0%, 100% {
+    color: #000000 !important;
+  }
+}
+
+/* Fix any transition properties */
+header *, nav * {
+  transition-property: background-color, transform, box-shadow !important;
+  transition-property: none !important;
+}
+
+/* Ensure text in buttons stays black */
+header button span,
+nav button span {
+  color: #000000 !important;
+}
+
+/* Primary buttons might need specific overrides */
+header [class*="primary"],
+header [class*="primary"] *,
+nav [class*="primary"],
+nav [class*="primary"] * {
+  color: #000000 !important;
+}

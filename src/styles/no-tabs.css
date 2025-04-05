@@ -1,0 +1,24 @@
+/* CSS to specifically hide tabs and tab-related elements */
+.tabs,
+.tabs-list,
+.tabs-content,
+.tabs-trigger,
+div[role="tablist"],
+div[role="tab"],
+div[data-orientation="horizontal"],
+button[role="tab"],
+[data-state="active"],
+[data-state="inactive"] {
+  display: none !important;
+}
+
+/* Hide navigation tabs in dashboard */
+[class*="tablist"],
+[class*="tabstrigger"] {
+  display: none !important;
+}
+
+/* Make sure any elements with classname containing 'tab' are also hidden */
+[class*="tab-"] {
+  display: none !important;
+}

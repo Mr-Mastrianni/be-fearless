@@ -1,0 +1,306 @@
+/* Micro-interactions for buttons, scrolling, and form interactions */
+
+/* Button hover and click effects */
+.btn-micro-interaction {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-micro-interaction:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(220, 38, 38, 0.3);
+}
+
+.btn-micro-interaction:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Button ripple effect */
+.btn-micro-interaction::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%, -50%);
+  transform-origin: 50% 50%;
+}
+
+.btn-micro-interaction:focus:not(:active)::after {
+  animation: ripple 0.5s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(20, 20);
+    opacity: 0;
+  }
+}
+
+/* Link hover effect */
+.link-hover-effect {
+  position: relative;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.link-hover-effect::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background: linear-gradient(90deg, #7e3af2, #ff4d4d);
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease;
+}
+
+.link-hover-effect:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Input focus animation */
+.input-focus-effect {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-focus-effect:focus {
+  border-color: #7e3af2;
+  box-shadow: 0 0 0 3px rgba(126, 58, 242, 0.2);
+  animation: input-pulse 1s ease-out;
+}
+
+@keyframes input-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(126, 58, 242, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 5px rgba(126, 58, 242, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(126, 58, 242, 0);
+  }
+}
+
+/* Scroll-triggered animations */
+.scroll-fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.scroll-fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered animation for lists */
+.staggered-animation > * {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.staggered-animation.visible > *:nth-child(1) {
+  animation: stagger-fade-in 0.5s ease forwards;
+}
+
+.staggered-animation.visible > *:nth-child(2) {
+  animation: stagger-fade-in 0.5s ease forwards 0.1s;
+}
+
+.staggered-animation.visible > *:nth-child(3) {
+  animation: stagger-fade-in 0.5s ease forwards 0.2s;
+}
+
+.staggered-animation.visible > *:nth-child(4) {
+  animation: stagger-fade-in 0.5s ease forwards 0.3s;
+}
+
+.staggered-animation.visible > *:nth-child(5) {
+  animation: stagger-fade-in 0.5s ease forwards 0.4s;
+}
+
+.staggered-animation.visible > *:nth-child(n+6) {
+  animation: stagger-fade-in 0.5s ease forwards 0.5s;
+}
+
+@keyframes stagger-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Floating Action Button animation */
+.fab-container {
+  position: fixed;
+  bottom: 2rem;
+  z-index: 999;
+}
+
+.left-positioned {
+  left: 2rem;
+}
+
+.right-positioned {
+  right: 2rem;
+}
+
+.fab {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #7e3af2, #4e31aa);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.fab:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.fab svg {
+  transition: transform 0.3s ease;
+}
+
+.fab:hover svg {
+  transform: rotate(10deg) scale(1.1);
+}
+
+/* Pulse animation for FAB */
+.fab-pulse {
+  animation: fab-pulse 2s infinite;
+}
+
+@keyframes fab-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(126, 58, 242, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(126, 58, 242, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(126, 58, 242, 0);
+  }
+}
+
+/* Cursor trail effect */
+.cursor-trail-dot {
+  pointer-events: none;
+  position: fixed;
+  z-index: 9999;
+  transition: top 0.15s ease, left 0.15s ease;
+  box-shadow: 0 0 5px rgba(126, 58, 242, 0.3);
+  opacity: 0;
+  animation: fade-in 0.3s forwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Shark-themed cursor effects - Angry shark version */
+.shark-bite {
+  animation: bite 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes bite {
+  0% { transform: scale(1); }
+  40% { transform: scale(0.9); }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Water ripple effect for angry shark cursor environment */
+.water-ripple {
+  position: fixed;
+  border-radius: 50%;
+  transform: scale(0);
+  background-color: rgba(220, 38, 38, 0.4);
+  animation: water-ripple 0.8s ease-out;
+  pointer-events: none;
+}
+
+@keyframes water-ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Shark-themed button hover effects - Danger theme */
+.btn-micro-interaction:hover,
+button:hover,
+[role="button"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(220, 38, 38, 0.3);
+  transition: all 0.3s ease;
+}
+
+/* Shark swim animation for loading or transition states - Angry version */
+.shark-swim {
+  animation: angry-swim 1.2s infinite ease-in-out;
+}
+
+@keyframes angry-swim {
+  0% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(12px) rotate(8deg); }
+  50% { transform: translateX(0) rotate(0deg); }
+  75% { transform: translateX(-12px) rotate(-8deg); }
+  100% { transform: translateX(0) rotate(0deg); }
+}
+
+/* Bubble animation for danger underwater effects */
+.bubble {
+  position: absolute;
+  background-color: rgba(220, 38, 38, 0.6);
+  border-radius: 50%;
+  animation: bubble-rise 2.5s infinite ease-in;
+}
+
+@keyframes bubble-rise {
+  0% { 
+    transform: translateY(0) scale(1);
+    opacity: 0; 
+  }
+  20% { 
+    opacity: 0.8; 
+  }
+  100% { 
+    transform: translateY(-100px) scale(1.5);
+    opacity: 0; 
+  }
+}
+
+/* Add shark bite effect to all buttons on click */
+button:active, 
+.btn-micro-interaction:active, 
+[role="button"]:active, 
+input[type="submit"]:active,
+input[type="button"]:active, 
+.clickable:active {
+  animation: bite 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}

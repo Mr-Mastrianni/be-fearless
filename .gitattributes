@@ -1,0 +1,2 @@
+# Video files are now hosted externally
+# *.mp4 filter=lfs diff=lfs merge=lfs -text

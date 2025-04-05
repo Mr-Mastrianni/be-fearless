@@ -1,0 +1,7 @@
+
+project_id = "bzryrvfjfzchzbmxzdyi"
+
+# Environment variables for the airtable Edge Function
+[airtable.env]
+AIRTABLE_API_KEY = "patyqiuYJMl1Pjfnh.b711f3a190bf6fbba0ece6762be50caf5ee1315e69aaa8589696f2362e77b0b5"
+AIRTABLE_BASE_ID = "app1jkqdoLNjV2BP0"

@@ -1,0 +1,84 @@
+/* EXTREMELY AGGRESSIVE CSS to hide ALL navigation elements */
+nav, 
+.nav,
+.navbar,
+.nav-bar,
+.navigation,
+.main-nav,
+.top-nav,
+header,
+header *,
+#header,
+#header *,
+.header,
+.header *,
+.courage-navbar,
+.courage-navbar *,
+.navbar-override,
+.navbar-override *,
+.tabs,
+.tab-list,
+.tab-navigation,
+[role="navigation"],
+[aria-label*="navigation"],
+[aria-label*="Navigation"],
+[aria-label*="nav"],
+[aria-label*="Nav"],
+[aria-label*="menu"],
+[aria-label*="Menu"],
+.menu-container,
+div[class*="navbar"],
+div[class*="nav-"],
+div[class*="navigation"],
+div[class*="menu"],
+button[aria-label*="menu"],
+ul li a[href="/"],
+ul li a[href="/activities"],
+ul li a[href="/dashboard"],
+a[href="/signin"],
+a[href="/signup"],
+button:contains("Sign In"),
+button:contains("Sign Up"),
+button:contains("Get Started") {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+  z-index: -9999 !important;
+}
+
+/* Reset any padding/margin that might be compensating for a navbar */
+html body,
+html #root,
+html .app-container,
+html .content-container,
+html main,
+html [class*="content"],
+html [class*="container"],
+html div,
+html section {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Force any elements with top padding to reset */
+*[style*="padding-top"],
+*[style*="margin-top"] {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Ensure full height for content */
+html, 
+body,
+#root,
+.min-h-screen {
+  height: 100%;
+}

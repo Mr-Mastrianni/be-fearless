@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vimeo ID Extractor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #1ab7ea; /* Vimeo blue */
+            text-align: center;
+        }
+        .container {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-family: monospace;
+        }
+        button {
+            background-color: #1ab7ea;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0099cc;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e6f7ff;
+            border-left: 4px solid #1ab7ea;
+        }
+        .hidden {
+            display: none;
+        }
+        .code-block {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            margin-top: 20px;
+        }
+        .instructions {
+            margin-bottom: 20px;
+        }
+        .video-name {
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vimeo ID Extractor</h1>
+
+    <div class="instructions">
+        <p>This tool helps you extract Vimeo video IDs from URLs or embed codes and generates the configuration for your project.</p>
+        <ol>
+            <li>Go to your video on Vimeo</li>
+            <li>You can either:
+                <ul>
+                    <li><strong>Copy the video URL</strong> (e.g., https://vimeo.com/123456789 or https://vimeo.com/123456789/abcdef123)</li>
+                    <li>OR click the "Share" button, select the "Embed" tab, and copy the embed code</li>
+                </ul>
+            </li>
+            <li>Paste the URL or embed code below and click "Extract ID"</li>
+        </ol>
+    </div>
+
+    <div class="container">
+        <div class="video-name">
+            <label for="videoName">Video Name (e.g., "julie", "compilation"):</label>
+            <input type="text" id="videoName" placeholder="Enter video name">
+        </div>
+
+        <label for="embedCode">Paste Vimeo URL or Embed Code:</label>
+        <textarea id="embedCode" placeholder="https://vimeo.com/123456789/abcdef123 or <iframe src='https://player.vimeo.com/video/123456789'..."></textarea>
+
+        <button onclick="extractId()">Extract ID</button>
+
+        <div id="result" class="result hidden">
+            <h3>Extracted Information:</h3>
+            <p><strong>Video ID:</strong> <span id="videoId"></span></p>
+            <p><strong>Embed URL:</strong> <span id="embedUrl"></span></p>
+
+            <h3>Configuration Code:</h3>
+            <div id="configCode" class="code-block"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>All Extracted Configurations</h2>
+        <p>As you extract IDs, they'll be added here. Copy this entire block when you're done:</p>
+        <div id="allConfigs" class="code-block">export const videoConfig = {
+  // Add your video configurations here
+};</div>
+    </div>
+
+    <script>
+        function extractId() {
+            const embedCode = document.getElementById('embedCode').value;
+            const videoName = document.getElementById('videoName').value.trim();
+            const resultDiv = document.getElementById('result');
+            const videoIdSpan = document.getElementById('videoId');
+            const embedUrlSpan = document.getElementById('embedUrl');
+            const configCodeDiv = document.getElementById('configCode');
+            const allConfigsDiv = document.getElementById('allConfigs');
+
+            if (!embedCode) {
+                alert('Please paste a Vimeo embed code');
+                return;
+            }
+
+            if (!videoName) {
+                alert('Please enter a video name');
+                return;
+            }
+
+            // Extract the video ID using regex - handle multiple Vimeo URL formats
+            let match = embedCode.match(/player\.vimeo\.com\/video\/(\d+)/); // Standard embed format
+
+            if (!match) {
+                // Try direct URL format: https://vimeo.com/123456789
+                match = embedCode.match(/vimeo\.com\/(\d+)(?:\/|\?|$)/);
+            }
+
+            if (!match) {
+                // Try unlisted video format: https://vimeo.com/123456789/abcdef123
+                match = embedCode.match(/vimeo\.com\/(\d+)\/([a-zA-Z0-9]+)/);
+            }
+
+            if (match && match[1]) {
+                const videoId = match[1];
+                const embedUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&title=0&byline=0&portrait=0`;
+
+                // Display the results
+                videoIdSpan.textContent = videoId;
+                embedUrlSpan.textContent = embedUrl;
+                resultDiv.classList.remove('hidden');
+
+                // Generate configuration code
+                let configType = '';
+                let description = '';
+
+                if (videoName === 'julie') {
+                    configType = 'Personal Story';
+                    description = "Julie's personal journey of courage and growth.";
+                } else if (videoName === 'laura') {
+                    configType = 'Overcoming Fear';
+                    description = "Laura's personal journey of courage and growth.";
+                } else if (videoName === 'michael') {
+                    configType = 'Growth Journey';
+                    description = "Michael's personal journey of courage and growth.";
+                } else if (videoName === 'nicolas') {
+                    configType = 'Transformation';
+                    description = "Nicolas's personal journey of courage and growth.";
+                } else if (videoName === 'compilation') {
+                    configType = 'Featured';
+                    description = "A compilation of courage stories.";
+                } else {
+                    configType = 'Personal Story';
+                    description = `${videoName}'s personal journey of courage and growth.`;
+                }
+
+                const configCode = `  ${videoName}: {
+    name: '${videoName.charAt(0).toUpperCase() + videoName.slice(1)}',
+    type: 'vimeo',
+    videoId: '${videoId}',
+    embedSrc: '${embedUrl}',
+    category: '${configType}',
+    description: "${description}"
+  },`;
+
+                configCodeDiv.textContent = configCode;
+
+                // Add to all configs
+                const currentConfigs = allConfigsDiv.textContent;
+                if (currentConfigs.includes('// Add your video configurations here')) {
+                    // First entry
+                    allConfigsDiv.textContent = currentConfigs.replace('// Add your video configurations here', configCode);
+                } else {
+                    // Add to existing entries
+                    const lastBrace = currentConfigs.lastIndexOf('};');
+                    if (lastBrace !== -1) {
+                        const newConfigs = currentConfigs.substring(0, lastBrace) + configCode + '\n};';
+                        allConfigsDiv.textContent = newConfigs;
+                    }
+                }
+
+            } else {
+                alert('Could not find a Vimeo video ID in the text you provided. Please make sure you\'re pasting a valid Vimeo URL (like https://vimeo.com/123456789 or https://vimeo.com/123456789/abcdef123) or a Vimeo embed code.');
+            }
+        }
+    </script>
+</body>
+</html>
