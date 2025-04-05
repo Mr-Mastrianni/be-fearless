@@ -14,16 +14,16 @@ const VideoGallery = () => {
   };
 
   return (
-    <section id="videos" className="py-20 bg-white">
+    <section id="videos" className="py-12 sm:py-20 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-16 px-4">
-          <span className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-courage-100 text-courage-800 mb-4">
+        <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-16 px-2 sm:px-4">
+          <span className="inline-block px-3 py-1 text-xs sm:text-sm font-medium rounded-full bg-courage-100 text-courage-800 mb-3 sm:mb-4">
             Our Journey
           </span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
             Watch Our Adventure
           </h2>
-          <p className="text-base sm:text-lg text-gray-600 mb-8">
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-6 sm:mb-8">
             See how we face our fears and grow through challenges. Our real experiences
             show the power of courage in action.
           </p>
@@ -80,14 +80,14 @@ const VideoGallery = () => {
             </CardContent>
           </Card>
 
-          <div className="mt-6 text-center">
-            <h3 className="text-2xl font-bold text-gray-900">Facing Our Fears Together</h3>
-            <p className="mt-2 text-gray-600">
+          <div className="mt-4 sm:mt-6 text-center px-2 sm:px-0">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900">Facing Our Fears Together</h3>
+            <p className="mt-2 text-sm sm:text-base text-gray-600">
               This video shows our team members challenging themselves and supporting each other
               through various courage-building activities. Every step outside our comfort zone
               is a victory worth celebrating.
             </p>
-            <div className="mt-4 flex items-center justify-center text-sm text-gray-500">
+            <div className="mt-3 sm:mt-4 flex items-center justify-center text-xs sm:text-sm text-gray-500">
               <span className="mr-2">Filmed on location</span>
               <span>•</span>
               <span className="ml-2">March 2025</span>
