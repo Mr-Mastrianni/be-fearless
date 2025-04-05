@@ -30,7 +30,8 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    // Enhanced validation
     if (!fullName || !email || !password || !confirmPassword) {
       toast({
         title: 'Missing fields',
@@ -39,7 +40,18 @@ const Register = () => {
       });
       return;
     }
-    
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast({
+        title: 'Invalid email',
+        description: 'Please enter a valid email address.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     if (password !== confirmPassword) {
       toast({
         title: 'Password mismatch',
@@ -48,7 +60,7 @@ const Register = () => {
       });
       return;
     }
-    
+
     if (password.length < 8) {
       toast({
         title: 'Password too short',
@@ -57,90 +69,113 @@ const Register = () => {
       });
       return;
     }
-    
+
     setIsLoading(true);
-    
+
     try {
       console.log("Starting signup process for:", email);
-      
+
       // Check if we should bypass email verification in development
       const skipEmailVerification = import.meta.env.VITE_SKIP_EMAIL_VERIFICATION === 'true';
-      
-      console.log('Creating account with email verification', skipEmailVerification ? 'DISABLED' : 'ENABLED');
-      
-      // Create the user with appropriate options based on environment
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: fullName,
-            phone: phone,
-            is_new_user: true
-          },
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-          // Skip email verification in development if configured
-          ...(skipEmailVerification ? { emailConfirmationStrategy: 'trusted_email' } : {})
-        }
-      });
 
-      if (error) {
-        console.error("Signup error:", error);
+      console.log('Creating account with email verification', skipEmailVerification ? 'DISABLED' : 'ENABLED');
+
+      // Use direct Supabase Auth API instead of Edge Function
+      console.log('Using direct Supabase Auth API for registration');
+
+      try {
+        // Create the user directly with Supabase Auth
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              full_name: fullName,
+              phone: phone || null,
+              is_new_user: true
+            },
+            // Auto-confirm email in development
+            emailRedirectTo: `${window.location.origin}/auth/callback`
+          }
+        });
+
+        if (error) {
+          console.error("Registration error:", error);
+          toast({
+            title: 'Registration failed',
+            description: error.message || 'An error occurred during registration',
+            variant: 'destructive',
+          });
+          setIsLoading(false);
+          return;
+        }
+
+        if (!data || !data.user) {
+          console.error("Registration error: No user data returned");
+          toast({
+            title: 'Registration failed',
+            description: 'No user data returned from registration',
+            variant: 'destructive',
+          });
+          setIsLoading(false);
+          return;
+        }
+
+        console.log('Registration successful:', data);
+
+        // Sync user data to Airtable if needed
+        try {
+          console.log("Syncing user data to Airtable");
+          await syncUserToAirtable(data.user.id);
+        } catch (syncError) {
+          console.error("Error syncing to Airtable:", syncError);
+          // Continue despite error - this is non-critical
+        }
+
+        // Create a user profile manually if needed
+        try {
+          console.log("Creating user profile manually");
+          const { error: profileError } = await supabase
+            .from('user_profiles')
+            .insert({
+              user_id: data.user.id,
+              full_name: fullName,
+              profile_completed: false,
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+              notification_preferences: {},
+              dashboard_layout: {},
+              experience_preferences: {},
+              theme_preferences: {}
+            });
+
+          if (profileError) {
+            console.error("Error creating user profile:", profileError);
+            // Continue despite error - the database trigger should handle it
+          } else {
+            console.log("User profile created successfully");
+          }
+        } catch (profileError) {
+          console.error("Error creating user profile:", profileError);
+          // Continue despite error - the database trigger should handle it
+        }
+      } catch (authError) {
+        console.error("Unexpected auth error:", authError);
         toast({
           title: 'Registration failed',
-          description: error.message || 'An error occurred during registration.',
+          description: authError instanceof Error ? authError.message : 'An unexpected error occurred',
           variant: 'destructive',
         });
         setIsLoading(false);
         return;
       }
 
-      console.log("Signup successful, user data:", data);
-      
-      // Now create a profile in the user_profiles table
-      if (data.user) {
-        try {
-          const profileData = {
-            user_id: data.user.id,
-            full_name: fullName,
-            phone_number: phone,
-            created_at: new Date().toISOString(),
-            profile_completed: false,
-          };
-          
-          console.log("Creating user profile with data:", profileData);
-          
-          const { error: profileError } = await supabase
-            .from('user_profiles')
-            .insert(profileData);
-            
-          if (profileError) {
-            console.error("Error creating profile:", profileError);
-            // Just log this error but don't show to user since signup succeeded
-          } else {
-            console.log("Profile created successfully");
-            
-            // Sync user data to Airtable
-            try {
-              console.log("Syncing user data to Airtable");
-              await syncUserToAirtable(data.user.id);
-            } catch (syncError) {
-              console.error("Error syncing to Airtable:", syncError);
-              // Continue despite error
-            }
-          }
-        } catch (profileError) {
-          console.error("Exception creating profile:", profileError);
-          // Just log this error but don't show to user since signup succeeded
-        }
-      }
-      
       // Show success message - always confirmed in development
       toast({
         title: 'Registration successful',
         description: 'Your account has been created successfully!',
       });
-      
+
       // Set the registered email and mark registration as complete
       setRegisteredEmail(email);
       setRegistrationComplete(true);
@@ -151,24 +186,17 @@ const Register = () => {
         description: error.message || 'An unexpected error occurred.',
         variant: 'destructive',
       });
+      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Removed auto-login effect
-
-  // If registration is complete, show confirmation screen
+  // Show a different view after successful registration
   if (registrationComplete) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
-        <div className="w-full max-w-md p-4">
-          <div className="text-center mb-8">
-            <Link to="/" className="inline-block">
-              <h1 className="text-3xl font-bold text-courage-800">Be Courageous</h1>
-            </Link>
-          </div>
-          
+      <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4 py-12">
+        <div className="w-full max-w-md">
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl">Registration Complete</CardTitle>
@@ -182,7 +210,7 @@ const Register = () => {
                   <Mail className="h-12 w-12 text-courage-600" />
                 </div>
               </div>
-              
+
               <p>You've successfully created an account with:</p>
               <p className="font-medium text-lg">{registeredEmail}</p>
             </CardContent>
@@ -202,14 +230,8 @@ const Register = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="w-full max-w-md p-4">
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-block">
-            <h1 className="text-3xl font-bold text-courage-800">Be Courageous</h1>
-          </Link>
-        </div>
-        
+    <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4 py-12">
+      <div className="w-full max-w-md">
         <Card>
           <CardHeader>
             <CardTitle className="text-2xl">Create an Account</CardTitle>
@@ -243,7 +265,7 @@ const Register = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number (optional)</Label>
+                <Label htmlFor="phone">Phone (optional)</Label>
                 <Input
                   id="phone"
                   type="tel"
@@ -264,9 +286,6 @@ const Register = () => {
                   disabled={isLoading}
                   required
                 />
-                <p className="text-xs text-gray-500">
-                  Must be at least 8 characters long
-                </p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">Confirm Password</Label>
