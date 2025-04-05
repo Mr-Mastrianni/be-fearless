@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Be Courageous - Page Not Found</title>
+  <script>
+    // Single Page App routing fix for GitHub Pages
+    // This script takes the current URL and redirects to the root with a path parameter
+    // that the SPA router can use to navigate to the correct route
+    (function() {
+      // Get the current path (everything after the domain)
+      var path = window.location.pathname;
+      
+      // If this is already a redirect from this script, don't redirect again
+      if (window.location.search.indexOf('redirect=true') !== -1) {
+        return;
+      }
+      
+      // Redirect to the index.html page with the current path as a query parameter
+      window.location.href = '/?path=' + encodeURIComponent(path) + '&redirect=true';
+    })();
+  </script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f7f7f7;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 500px;
+      padding: 40px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+      color: #666;
+    }
+    a {
+      color: #4f46e5;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Page Not Found</h1>
+    <p>The page you're looking for doesn't exist or has been moved.</p>
+    <p>You'll be redirected to the homepage in a moment...</p>
+    <p>If you're not redirected, <a href="/">click here to go to the homepage</a>.</p>
+  </div>
+</body>
+</html>
