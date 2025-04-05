@@ -361,18 +361,27 @@
     pointer-events: none;
     text-align: center;
     width: 100%;
-    display: block;
+    display: none; /* Hide on mobile to prevent layout issues */
     z-index: -1;
+  }
+
+  @media (min-width: 640px) {
+    .hero-title-glow {
+      display: block; /* Show on larger screens */
+    }
   }
 
   @media (max-width: 768px) {
     .hero-title {
       font-size: 2.5rem;
+      line-height: 1.2;
+      margin-bottom: 1rem;
     }
 
     .hero-subtext {
       font-size: 1rem;
       padding: 0 1rem;
+      line-height: 1.5;
     }
 
     .hero-title-container {
@@ -382,7 +391,19 @@
 
   @media (max-width: 480px) {
     .hero-title {
-      font-size: 2rem;
+      font-size: 1.75rem;
+      padding: 0 0.5rem;
+      line-height: 1.3;
+    }
+
+    .hero-title span.block {
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .hero-subtext {
+      font-size: 0.9rem;
+      padding: 0 0.5rem;
     }
   }
 
@@ -754,6 +775,56 @@
       font-size: 0.9375rem;
       line-height: 1.5;
     }
+
+    /* Improve spacing on mobile */
+    section {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+
+    /* Adjust headings on mobile */
+    h1, h2, h3 {
+      line-height: 1.3;
+    }
+
+    /* Ensure images don't overflow on mobile */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Fix for hero section on mobile */
+    .hero-bg-slide {
+      background-position: center center !important;
+    }
+
+    /* Improve text contrast on mobile */
+    .hero-title, .hero-subtext {
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 4px 8px rgba(0, 0, 0, 0.8) !important;
+    }
+  }
+
+  /* Hero background slides */
+  .hero-bg-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+
+  .hero-bg-slide.active {
+    opacity: 1;
+  }
+
+  .hero-bg-zoom {
+    animation: subtle-zoom 20s ease-in-out infinite alternate;
+  }
+
+  @keyframes subtle-zoom {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
   }
 
   /* Ensure dropdown menus appear above all other content */
