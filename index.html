@@ -3,11 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Be Courageous</title>
-    <meta name="description" content="Be Courageous - Empowering personal growth through courage" />
+    <title>Be Courageous - Overcome Fears & Build Lasting Confidence</title>
+    <meta name="description" content="Be Courageous helps you face your fears through guided adventure therapy. Transform anxiety into confidence with our supportive programs." />
     <meta name="author" content="Be Courageous" />
+    <meta name="keywords" content="overcome fears, courage building, adventure therapy, confidence, personal growth, fear of heights, fear of water" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://becourageousnonprofit.org/" />
+    <meta property="og:title" content="Be Courageous - Overcome Fears & Build Lasting Confidence" />
+    <meta property="og:description" content="Transform your relationship with fear through our supportive adventure therapy programs. Learn techniques to face fears and build lasting courage." />
     <meta property="og:image" content="/og-image.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://becourageousnonprofit.org/" />
+    <meta property="twitter:title" content="Be Courageous - Overcome Fears & Build Lasting Confidence" />
+    <meta property="twitter:description" content="Transform your relationship with fear through our supportive adventure therapy programs. Learn techniques to face fears and build lasting courage." />
+    <meta property="twitter:image" content="/og-image.png" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://becourageousnonprofit.org/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Anime.js for animations -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
     <script>
       // Handle redirects from 404.html
       (function() {
@@ -20,9 +39,40 @@
           window.history.replaceState(null, null, url);
         }
       })();
+
+      // Register Service Worker for offline support and faster loading
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(function(registration) {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(function(error) {
+              console.log('ServiceWorker registration failed: ', error);
+            });
+        });
+      }
+
+      // Preload critical resources
+      const preloadLinks = [
+        { rel: 'preload', href: '/assets/index.css', as: 'style' },
+        { rel: 'preload', href: '/assets/index.js', as: 'script' },
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' }
+      ];
+
+      preloadLinks.forEach(link => {
+        const linkEl = document.createElement('link');
+        Object.keys(link).forEach(attr => {
+          linkEl.setAttribute(attr, link[attr]);
+        });
+        document.head.appendChild(linkEl);
+      });
     </script>
-    <script type="module" crossorigin src="/assets/index-DCddzdDD.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-TuhDly7s.css">
+    <script type="module" crossorigin src="/assets/index-CK-zyxyt.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-CT_XsHg0.js">
+    <link rel="modulepreload" crossorigin href="/assets/ui-_bvdjceA.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-DctiuYws.css">
   </head>
 
   <body>
